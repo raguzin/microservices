@@ -1,0 +1,4 @@
+REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+raguzin/ubuntu-tmp-file   latest              fd1f8efa2e9e        3 minutes ago       125MB
+ubuntu                    16.04               005d2078bdfa        4 weeks ago         125MB
+hello-world               latest              bf756fb1ae65        4 months ago        13.3kB

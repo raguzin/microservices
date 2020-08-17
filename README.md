@@ -65,4 +65,88 @@ $ docker push <login>/otus-reddit:1.0<br><br>
 
 • docker logs reddit -f<br>
 • docker inspect <login>/reddit:1.0<br>
-• docker inspect <login>/reddit:1.0 -f '{{.ContainerConfig.Cmd}}'<br>
+• docker inspect <login>/reddit:1.0 -f '{{.ContainerConfig.Cmd}}'<br><br>
+
+## Сети в Docker. Network Drivers
+
+### None
+
+$ docker run --network none<br><br>
+
+• Для контейнера создается свой network namespace<br>
+• У контейнера есть только loopback интерфейс<br>
+• Сеть контейнера полностью изолирована<br><br>
+
+### Host
+
+$ docker run --network host<br><br>
+
+• Контейнер использует network namespace хоста<br>
+• Сеть не управляется самим Docker<br>
+• Два сервиса в разных контейнерах не могут слушать один и тот же порт<br>
+• Производительность сети контейнера равна производительности сети хоста<br>
+
+### Bridge
+
+$ docker network create NETWORKNAME --driver bridge<br>
+$ docker run -d --network=NETWORKNAME<br><br>
+
+• Если нужно отделить контейнер или группу контейнеров<br>
+• Контейнер может быть подключен к нескольким Bridge сетям (без рестарта)<br>
+• Работает Service Discovery<br>
+• Произвольные диапазоны IP-адресов<br><br>
+
+$ docker network create -d bridge --subnet 10.0.0.0/24 my_bridge<br>
+$ docker run --name c1 ubuntu<br>
+$ docker run —-network my_bridge --name c2 ubuntu<br>
+$ docker run —-network my_bridge --name c3 ubuntu<br><br>
+
+$ docker run -P (--publish-all)<br>
+• Распознает строки с ключевым словом EXPOSE в Dockerfilе и флаг --expose при запуске контейнера<br>
+• Привязывает доступный порт на хосте из диапазона 32768-61000<br>
+• Для избежания неявно открытых портов не рекомендуется использовать<br><br>
+
+$ docker run -p PORT (--publish=PORT)<br>
+PORT может быть в формате:<br>
+• ip_addr:hostPort:containerPort/protoc
+• ip_addr:hostPort:containerPort<br>
+• hostPort:containerPort<br>
+• containerPort (будет работать как -P)<br><br>
+
+default bridge network<br>
+• Назначается по умолчанию для контейнеров<br>
+• Нельзя вручную назначать IP-адреса<br>
+• Нет Service Discovery<br>
+
+### Macvlan
+
+• Работает на основе sub-interfaces Linux<br>
+• Более производительный, чем bridge<br>
+• Если нужно подключить контейнер к локальной сети<br>
+• Поддерживается тегирование VLAN (802.1Q)<br>
+
+### Overlay
+
+• Позволяет объединить в одну сеть контейнеры нескольких Docker хостов<br>
+• Работает поверх VXLAN<br>
+• Необходимо хранить состояние распределенной сети<br>
+
+# Docker-Compose
+
+• Отдельная утилита<br>
+• Декларативное описание Docker инфраструктуры в YAML-формате<br>
+• Управление многоконтейнерными приложениями<br><br>
+
+Dockerfile – конфигурация сборки окружения и приложений в нем<br>
+docker-compose.yml - конфигурация проекта<br><br>
+
+Один docker-compose.yml на все окружения (под проект или приложение)<br>
+Файл docker-compose.override.yml c:<br>
+• Произвольными точки монтирования для быстрого изменения кода внутри контейнера<br>
+• ENV переменными, характерными для окружения<br>
+• Заменой command инструкций для образов<br>
+• Перезаписью выводимых наружу портов<br><br>
+
+$ docker-compose up -d<br>
+$ docker-compose ps<br>
+$ docker-compose down<br>

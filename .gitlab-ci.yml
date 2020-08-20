@@ -16,7 +16,9 @@ spawn_containers:
   script:
     - echo "Start docker-containers for compile sources"
   #  - set -o allexport; . ./docker/.env.staging.lc
+    - apt-get install python-pip
     - pip -V
+    - pip install docker-compose
     - docker-compose --version
     - docker-compose -f /src/docker-compose.yml up -d  
  

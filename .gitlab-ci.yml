@@ -1,74 +1,51 @@
-image: ruby:2.4.2
-
+#variables:
+#  DOCKER_DRIVER: overlay
+ 
 stages:
-    - build
-    - test
-    - review
-    - stage
-    - production
-
-variables:
-  DATABASE_URL: 'mongodb://mongo/user_posts'
-
-before_script:
-  - cd reddit
-  - bundle install
-    
-build_job:
+  - spawn
+  - build
+  - test
+  - release
+  - deploy
+  - cleanup
+   
+spawn_containers:
+  stage: spawn
+  #before_script:
+  #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - echo "Start docker-containers for compile sources"
+  #  - set -o allexport; . ./docker/.env.staging.lc
+    - docker-compose -f /src/docker-compose.yml up -d  
+ 
+compile:
   stage: build
   script:
-    - echo 'Building'
-  
-test_unit_job:
-  stage: test
-  services:
-    - mongo:latest
-  script:
-    - ruby simpletest.rb
-  
-test_integration_job:
+    - echo "Compile sources"
+ 
+testing:
   stage: test
   script:
-    - echo 'Testing 2'
-  
-deploy_dev_job:
-  stage: review
+    - echo "Testing"
+ 
+release-image:
+  stage: release
   script:
-    - echo 'Deploy'
-  environment:
-    name: dev
-    url: http://dev.example.com
-
-
-branch review:
-  stage: review
-  script: echo 'Deploy to $CI_ENVIRONMENTS_SLUG'
-  environment:
-    name: branch/$CI_COMMIT_REF_NAME
-    url: http://$CI_ENVIRONMENTS_SLUG.example.com
-  only:
-    - branches
-  except:
-    - master
-
-staging:
-  stage: stage
+    - echo "Build docker-image with sources"
+ 
+deploy-to-review:
+  stage: deploy
+  script:
+    - echo "Deploy docker-image with sources to rewiew"
+ 
+deploy-to-prod:
+  stage: deploy
+  script:
+    - echo "Deploy docker-image with sources to production"
   when: manual
-  only:
-    - /^\d+\.\d+\.\d+/
+ 
+cleanup:
+  stage: cleanup
+  when: always
   script:
-    - echo 'Deploy'
-  environment:
-    name: stage
-    url: https://beta.example.com
-
-production:
-  stage: production
-  when: manual
-  only:
-    - /^\d+\.\d+\.\d+/
-  script:
-    - echo 'Deploy'
-  environment:
-    name: production
-    url: https://example.com
+    - echo "Stop & remove containers"

@@ -13,7 +13,7 @@ spawn_containers:
   stage: spawn
   before_script:
     - apk add docker-compose
-    - docker-compose --version
+    - export USERNAME=raguzin
   #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - echo "Start docker-containers for compile sources"

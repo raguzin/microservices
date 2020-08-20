@@ -12,7 +12,7 @@ stages:
 spawn_containers:
   stage: spawn
   before_script:
-    - apt-get install python-pip
+    - apk add docker-compose
     - docker-compose --version
   #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:

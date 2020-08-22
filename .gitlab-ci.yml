@@ -12,13 +12,13 @@ stages:
 spawn_containers:
   stage: spawn
   before_script:
-    - apk add docker-compose
     - export USERNAME=raguzin
+    - docker-compose --version
   #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - echo "Start docker-containers for compile sources"
   #  - set -o allexport; . ./docker/.env.staging.lc
-    - docker-compose -f src/docker-compose.yml up -d  
+    #- docker-compose -f src/docker-compose.yml up -d  
  
 compile:
   stage: build

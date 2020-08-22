@@ -17,8 +17,8 @@ spawn_containers:
     #- chmod +x /usr/local/bin/docker-compose
     - docker --version
     - docker-compose --version
-    - service docker status
-    - docker info
+    #- service docker status
+    #- docker info
   #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - echo "Start docker-containers for compile sources"

@@ -5,7 +5,8 @@ services:
 
 variables:
   DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
  
 stages:
   - spawn
@@ -25,7 +26,7 @@ spawn_containers:
     - docker-compose --version
     # - usermod -a -G docker $USER
     #- service docker status
-    #- docker info
+    - docker info
   #  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - echo "Start docker-containers for compile sources"

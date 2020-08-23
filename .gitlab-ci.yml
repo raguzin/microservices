@@ -1,5 +1,5 @@
-image:
-  - docker:latest
+image: docker:latest
+
 services:
   - docker:dind
 

@@ -30,7 +30,7 @@ spawn_containers:
     - echo "Start docker-containers for compile sources"
   #  - set -o allexport; . ./docker/.env.staging.lc
     - export USERNAME=raguzin
-    - sudo docker-compose -f src/docker-compose.yml up -d  
+    - docker-compose -f src/docker-compose.yml up -d  
  
 compile:
   stage: build

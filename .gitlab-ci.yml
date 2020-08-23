@@ -3,8 +3,8 @@ image: docker/compose:latest
 services:
   - docker:dind
 
-#variables:
-#  DOCKER_DRIVER: overlay
+variables:
+  DOCKER_DRIVER: overlay
  
 stages:
   - spawn

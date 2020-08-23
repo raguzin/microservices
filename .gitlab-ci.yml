@@ -1,3 +1,8 @@
+image:
+  - docker:latest
+services:
+  - docker:dind
+
 #variables:
 #  DOCKER_DRIVER: overlay
  
@@ -12,7 +17,7 @@ stages:
 spawn_containers:
   stage: spawn
   before_script:
-    - apt-get -y update && apt-get -y install sudo
+    #- apt-get -y update && apt-get -y install sudo
     #- curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     #- chmod +x /usr/local/bin/docker-compose
     - docker --version

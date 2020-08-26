@@ -25,8 +25,11 @@ spawn_containers:
     - echo "Start docker-containers"
     - export USERNAME=raguzin
     - docker-compose -f src/docker-compose.yml up -d
+    - mkdir image
+    - docker src_ui_1 > image/src_ui_1.tar
   artifacts:
-    image: src_ui_1
+    path:
+      - image
   
  
 testing:
@@ -35,6 +38,8 @@ testing:
     - spawn_containers
   script:
     - echo "Testing"
+    - docker load -i image/src_ui_1.tar
+    - docker run --name src_ui_1 -d src_ui_1
     - docker ps -a
     - docker exec src_ui_1 curl http://localhost:9292
   when: on_success

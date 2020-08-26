@@ -25,7 +25,7 @@ spawn_containers:
     - echo "Start docker-containers"
     - export USERNAME=raguzin
     - docker-compose -f src/docker-compose.yml up -d
-    - ui
+    - ping ui
  
 testing:
   stage: test

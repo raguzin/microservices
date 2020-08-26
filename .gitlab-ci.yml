@@ -1,7 +1,7 @@
 image: docker:19.03.12
 
 services:
-  docker:19.03.12-dind
+  - docker:19.03.12-dind
 
 variables:
   #MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt

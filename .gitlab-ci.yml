@@ -26,8 +26,7 @@ spawn_containers:
     - export USERNAME=raguzin
     - docker-compose -f src/docker-compose.yml up -d
   artifacts:
-    image:
-      - src_ui_1
+    image: src_ui_1
   
  
 testing:

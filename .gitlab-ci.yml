@@ -25,6 +25,10 @@ spawn_containers:
     - echo "Start docker-containers"
     - export USERNAME=raguzin
     - docker-compose -f src/docker-compose.yml up -d
+  artifacts:
+    image:
+      - src_ui_1
+  
  
 testing:
   stage: test
@@ -33,7 +37,7 @@ testing:
   script:
     - echo "Testing"
     - docker ps -a
-    - docker exec ui curl http://localhost:9292
+    - docker exec src_ui_1 curl http://localhost:9292
   when: on_success
  
 release-image:

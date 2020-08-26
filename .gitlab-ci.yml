@@ -28,7 +28,7 @@ spawn_containers:
     - mkdir image
     - docker src_ui_1 > image/src_ui_1.tar
   artifacts:
-    path:
+    paths:
       - image
   
  

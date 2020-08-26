@@ -32,7 +32,7 @@ testing:
     - spawn_containers
   script:
     - echo "Testing"
-    - docker-compose f src/docker-compose.yml exec -T ui curl http://localhost:9292
+    - docker exec src_ui_1 curl http://localhost:9292
   when: on_success
  
 release-image:

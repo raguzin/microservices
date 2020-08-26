@@ -7,7 +7,7 @@ services:
 
 variables:
   #MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
-  DOCKER_HOST: tcp://runner.labs.lc:2375
+  DOCKER_HOST: tcp://runner:2375
   DOCKER_DRIVER: overlay2
   #DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_CERTDIR: "" 

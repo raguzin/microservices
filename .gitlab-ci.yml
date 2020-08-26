@@ -26,7 +26,8 @@ spawn_containers:
     - export USERNAME=raguzin
     - docker-compose -f src/docker-compose.yml up -d
     - mkdir image
-    - docker src_ui_1 > image/src_ui_1.tar
+    - docker save 
+    src_ui_1 > image/src_ui_1.tar
   artifacts:
     paths:
       - image

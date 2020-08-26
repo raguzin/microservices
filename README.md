@@ -150,3 +150,23 @@ docker-compose.yml - конфигурация проекта<br><br>
 $ docker-compose up -d<br>
 $ docker-compose ps<br>
 $ docker-compose down<br>
+
+# Gilab
+
+Добавлен файл .gitlab-ci.yml с описанием инструкций CI по развертыванию и тестированию приложения в Gitlab.<br>
+Не закончено.<br>
+
+# Мониторинг
+
+## Prometheus
+
+Упорядочена структура каталогов.<br>
+prometheus.yml - содержи инструкции для prometheus по мониторингу работы приложения.<br>
+Prometheus для прстоты разворачивается также в Docker-контейнере prom/prometheus:v2.1.0.<br><br>
+
+Сборка образов производится при помощи скриптов docker_build.sh в директории каждого сервиса.<br>
+/src/ui $ bash docker_build.sh<br>
+/src/post-py $ bash docker_build.sh<br>
+/src/comment $ bash docker_build.sh<br><br>
+Или сразу все из корня репозитория:<br>
+for i in ui post-py comment; do cd src/$i; bash docker_build.sh; cd -; done<br>

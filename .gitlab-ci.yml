@@ -32,8 +32,8 @@ testing:
     - spawn_containers
   script:
     - echo "Testing"
-    - ping src_ui_1
-    - curl http://src_ui_1:9292
+    - docker-compose f src/docker-compose.yml exec -T ui curl http://localhost:9292
+  when: on_success
  
 release-image:
   stage: release

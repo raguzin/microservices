@@ -1,0 +1,69 @@
+image: docker:19.03.12
+
+services:
+  - docker:19.03.12-dind
+
+variables:
+  #MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
+  #DOCKER_HOST: tcp://docker:2375
+  #DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  #DOCKER_TLS_CERTDIR: "" 
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+  - cleanup
+   
+spawn_containers:
+  stage: build
+  before_script:
+    - apk update && apk add docker-compose
+  script:
+    - echo "Start docker-containers"
+    - export USERNAME=raguzin
+    - docker-compose -f src/docker-compose.yml up -d
+    - mkdir image
+    - docker save 
+    src_ui_1 > image/src_ui_1.tar
+  artifacts:
+    paths:
+      - image
+  
+ 
+testing:
+  stage: test
+  dependencies:
+    - spawn_containers
+  script:
+    - echo "Testing"
+    - docker load -i image/src_ui_1.tar
+    - docker run --name src_ui_1 -d src_ui_1
+    - docker ps -a
+    - docker exec src_ui_1 curl http://localhost:9292
+  when: on_success
+ 
+release-image:
+  stage: release
+  script:
+    - echo "Build docker-image with sources"
+ 
+deploy-to-review:
+  stage: deploy
+  script:
+    - echo "Deploy docker-image with sources to rewiew"
+ 
+deploy-to-prod:
+  stage: deploy
+  script:
+    - echo "Deploy docker-image with sources to production"
+  when: manual
+ 
+cleanup:
+  stage: cleanup
+  when: always
+  script:
+    - echo "Stop & remove containers"
+    - docker-compose -f src/docker-compose.yml down

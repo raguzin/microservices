@@ -158,11 +158,7 @@ $ docker-compose down<br>
 
 # Мониторинг
 
-## Prometheus
-
-Упорядочена структура каталогов.<br>
-prometheus.yml - содержи инструкции для prometheus по мониторингу работы приложения.<br>
-Prometheus для прстоты разворачивается также в Docker-контейнере prom/prometheus:v2.1.0.<br><br>
+docker/docker-composemonitoring.yml - сервисы мониторинга.<br><br>
 
 Сборка образов производится при помощи скриптов docker_build.sh в директории каждого сервиса.<br>
 /src/ui $ bash docker_build.sh<br>
@@ -170,3 +166,30 @@ Prometheus для прстоты разворачивается также в Do
 /src/comment $ bash docker_build.sh<br><br>
 Или сразу все из корня репозитория:<br>
 for i in ui post-py comment; do cd src/$i; bash docker_build.sh; cd -; done<br>
+
+## Prometheus 
+prometheus.yml - содержи инструкции для prometheus по мониторингу работы приложения.<br>
+Prometheus для прстоты разворачивается также в Docker-контейнере prom/prometheus:v2.1.0.<br><br>
+
+## cAdvisor 
+Собирает информацию о ресурсах потребляемых контейнерами и характеристиках их работы.<br><br>
+
+## Grafana
+Визуализации данных из Prometheus.<br>
+
+## Alertmanager
+Сервис для системы мониторинга Prometheus, который отвечает за первичную обработку алертов и дальнейшую отправку оповещений по заданному назначению.<br>
+monitoring/alertmanager/config.yml - конфигурационный файл для отправки нотификаций в тестовый слак канал.<br><br>
+
+# Логирование
+
+docker/docker-compose-logging.yml - сервисы логирования.<br><br>
+
+## EFK elasticsearch/fluentd/kibana
+fluentd - инструмент, который используется для отправки, агрегации и парсинга логов сервисов приложения.<br>
+logging/fluentd/fluent.conf - файл конфигурации fluentd.<br>
+http://dockerhost:5601 - web-интерфейс kibana<br><br>
+
+## Zipkin
+- сервис распределенного трейсинга.<br>
+http://dockerhost:9411 - web-интерфейс zipkin<br><br>
